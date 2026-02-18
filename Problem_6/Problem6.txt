@@ -1,0 +1,149 @@
+1. addi $a0, $0, 0
+
+Syntax: addi $rt, $rs, imm
+Here,
+	Type = I Type [op rs rt imm] 
+	addi --> op code = 8 -> 001000 (6 bits) 
+	rt = $a0 --> 4 -> 00100 (5 bits)
+	rs = $0 --> 0 -> 00000 (5 bits)
+	imm = 0 --> 0 --> 0000000000000000 (16 bits)
+
+Hence machine code becomes: 001000 00000 00100 0000000000000000 => 0x20040000
+
+2. lw  $t1,  0($gp)
+
+Syntax: lw $rt, imm($rs) 
+Here,
+	Type = I Type [op rs rt imm] 
+	lw --> op code = 35 -> 100011 (6 bits) 
+	rt = $t1 --> 9 -> 01001 (5 bits)
+	rs = $gp --> 28 -> 11100 (5 bits)
+	imm = 0 --> 0 --> 0000000000000000 (16 bits)
+
+Hence machine code becomes: 100011 11100 01001 0000000000000000 => 0x8F890000
+
+3. lw  $t2,  4($gp)
+
+Syntax: lw $rt, imm($rs) 
+Here,
+	Type = I Type [op rs rt imm] 
+	lw --> op code = 35 -> 100011 (6 bits) 
+	rt = $t2 --> 10 -> 01010 (5 bits)
+	rs = $gp --> 28 -> 11100 (5 bits)
+	imm = 4 --> 4 --> 0000000000000100 (16 bits)
+
+Hence machine code becomes: 100011 11100 01010 0000000000000100 => 0x8F8A0004
+
+4. add $t3, $t2, $t1 
+
+Syntax: add $rd, $rs, $rt 
+Here,
+	Type = R Type [op rs rt rd shamt funct] 
+	add --> op code = 0 -> 000000 (6 bits) 
+	rd = $t3 --> 11 -> 01011 (5 bits)
+	rs = $t2 --> 10 -> 01010 (5 bits)
+	rt = $t1 --> 9 -> 01001 (5 bits)
+	shamt = 0 --> 0 -> 00000 (5 bits)
+	funct = 32 --> 32 -> 100000 (6 bits)
+
+Hence machine code becomes:  000000 01010 01001 01011 00000 100000 => 0x01495820
+
+5. sub $t4, $t2, $t1
+
+Syntax: sub $rd, $rs, $rt 
+Here,
+	Type = R Type [op rs rt rd shamt funct] 
+	sub --> op code = 0 -> 000000 (6 bits) 
+	rd = $t4 --> 12 -> 01100 (5 bits)
+	rs = $t2 --> 10 -> 01010 (5 bits)
+	rt = $t1 --> 9 -> 01001 (5 bits)
+	shamt = 0 --> 0 -> 00000 (5 bits)
+	funct = 34 --> 32 -> 100010 (6 bits)
+
+Hence machine code becomes:  000000 01010 01001 01100 00000 100010 => 0x01496022
+
+6. slt $t5, $t4, $t3
+
+Syntax: slt $rd, $rs, $rt 
+Here,
+	Type = R Type [op rs rt rd shamt funct] 
+	slt --> op code = 0 -> 000000 (6 bits) 
+	rd = $t5 --> 13 -> 01101 (5 bits)
+	rs = $t4 --> 12 -> 01100 (5 bits)
+	rt = $t3 --> 11 -> 01011 (5 bits)
+	shamt = 0 --> 0 -> 00000 (5 bits)
+	funct = 42 --> 42 -> 101010 (6 bits)
+
+Hence machine code becomes:  000000 01100 01011 01101 00000 101010 => 0x018B682A
+
+7. beq $t5, $0, noswp 
+
+Syntax: beq $rs, $rt, imm 
+Here,
+	Type = I Type [op rs rt imm] 
+	beq --> op code = 4 -> 000100 (6 bits) 
+	rs = $t5 --> 13 -> 01101 (5 bits)
+	rt = $0 --> 0 -> 00000 (5 bits)
+	imm = 3 --> 3 --> 0000000000000011 (16 bits) # as noswp is after three instructions
+
+Hence machine code becomes: 000100 01101 00000 0000000000000011 => 0x11A00003
+
+8. nop # this means sll $0, $0, 0
+
+Syntax: sll $rd, $rt, shamt 
+Here,
+	Type = R Type [op rs rt rd shamt funct] 
+	slt --> op code = 0 -> 000000 (6 bits) 
+	rd = $0 --> 0 -> 00000 (5 bits)
+	rs = 0 --> 0 -> 00000 (5 bits) # as its unused
+	rt = $0 --> 0 -> 00000 (5 bits)
+	shamt = 0 --> 0 -> 00000 (5 bits)
+	funct = 0 --> 0 -> 000000 (6 bits)
+
+Hence machine code becomes:  000000 00000 00000 00000 00000 000000 => 0x00000000
+
+9. sw  $t2  0($gp)
+
+Syntax: sw $rt, imm($rs) 
+Here,
+	Type = I Type [op rs rt imm] 
+	sw --> op code = 43 -> 101011 (6 bits) 
+	rt = $t2 --> 10 -> 01010 (5 bits)
+	rs = $gp --> 28 -> 11100 (5 bits)
+	imm = 0 --> 0 --> 0000000000000000 (16 bits)
+
+Hence machine code becomes: 101011 11100 01010 0000000000000000 => 0xAF8A0000
+
+10. sw  $t1  4($gp) 
+
+Syntax: sw $rt, imm($rs) 
+Here,
+	Type = I Type [op rs rt imm] 
+	sw --> op code = 43 -> 101011 (6 bits) 
+	rt = $t1 --> 9 -> 01001 (5 bits)
+	rs = $gp --> 28 -> 11100 (5 bits)
+	imm = 4 --> 4 --> 0000000000000100 (16 bits)
+
+Hence machine code becomes: 101011 11100 01001 0000000000000100 => 0xAF890004
+
+11. j do
+
+Syntax: j target address 
+Here,
+	Type = J Type [op target address] 
+	j --> op code = 2 -> 000010 (6 bits) 
+	target address --> 
+	
+	Now, to find the target address of j, we would need 26 bits of address of Do, which is: 0x00400000. 
+	So, now we know:
+			ETA = {(PC+4[31:28]), target address<<2}
+
+	Hence if we reverse engineer, we can just do right shift instead of left and then take lower 26 bits:
+			0x00400000 >> 2 = 0x00100000
+	In binary:
+			0x00100000 = 0000 0000 0001 0000 0000 0000 0000 0000 
+	
+	And the lower 26 bits are:
+			Target address = 00 0001 0000 0000 0000 0000 0000
+	
+Hence now we can form machine code: 000010 00 0001 0000 0000 0000 0000 0000 => 0x08100000
